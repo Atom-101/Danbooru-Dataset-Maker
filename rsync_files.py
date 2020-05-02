@@ -6,7 +6,7 @@ from generate_file_list import handler
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(description='Download Danbooru2019 images')
-    parser.add_argument("-o","--original",help="Download from original dataset. Default behavior is to use the 512px", action="store_true")
+    parser.add_argument("-o","--original",help="Download from original dataset. Default behavior is to use the 512px dataset", action="store_true")
     parser.add_argument("-s","--skip-file-list",help="Don't create the file list before calling rsync. Will assume that file list(s) exist in tmp directory in current path", action="store_true")
     parser.add_argument("-c","--config-path",help="Path to config.json file. Defaults to current directory",default="")
     args = parser.parse_args()
@@ -16,7 +16,7 @@ if __name__ == "__main__":
         handler(args.config_path+"config.json")
 
     files = glob.glob('tmp/*.txt')
-    if len(files) > 0:
+    if len(files) > 1:
         for file in files:
             path = file[:-4].split('_')[-1]
             os.makedirs(path, exist_ok=True)

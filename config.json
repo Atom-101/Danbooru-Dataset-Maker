@@ -4,6 +4,6 @@
     "exclude_or": null,
     "include_and": ["no_humans"],
     "include_or": ["pokemon","digimon"],
-    "rating": "s",
+    "ratings": ["s"],
     "metadata_path": "../Danbooru/danbooru-metadata"
 }

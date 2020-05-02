@@ -7,8 +7,6 @@ import sys
 import tarfile
 
 def get_files_worker(file,exclude_and,exclude_or,include_and,include_or,rating,classif,q):
-    # files = sorted(glob.glob(f'{metadata_path}/*',recursive=True))
-    # files = [f for f in files if os.path.isfile(f)]
     id_list,id_dict = [],defaultdict(lambda: [])
     if classif and not include_or: raise ValueError()
     try:
@@ -16,7 +14,7 @@ def get_files_worker(file,exclude_and,exclude_or,include_and,include_or,rating,c
             print(f'Opened {file}')
             for line in f:
                 js = json.loads(line)
-                if rating and js['rating'] != rating: continue
+                if rating and js['rating'] not in rating: continue
                 tag_dict = js['tags']
                 tags = []
                 for t in tag_dict:
@@ -77,7 +75,7 @@ def handler(config_path):
             tar.extractall('tmp/meta')
     classif = conf['classification']
     exclude_and,exclude_or,include_and,include_or = conf['exclude_and'],conf['exclude_or'],conf['include_and'],conf['include_or']
-    rating = conf['rating']
+    rating = conf['ratings']
     manager = mp.Manager()
     q = manager.Queue()    
     pool = mp.Pool(mp.cpu_count() + 2)
@@ -101,6 +99,6 @@ def handler(config_path):
     pool.join()
 
 if __name__ == "__main__":
-    handler(sys.argv[1])
+    handler(sys.argv[1]+"config.json")
                     
                     
